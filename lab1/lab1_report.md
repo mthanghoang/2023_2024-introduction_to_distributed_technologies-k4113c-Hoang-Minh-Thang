@@ -59,15 +59,42 @@ The credentials are at the end of the output.
 ### 9. Use the credentials to authenticate, then we will be taken to this page
 ![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/35927871-c020-4cc7-a1ca-7cacafcd516e)
 
-### 10. Export the deployment configuration for the pod to a yaml file
+### 10. Another way to create a pod is to use *yaml* file (myfirst.yaml)
 ```
-kubectl get pod -o yaml > manifest.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "vault"
+  namespace: default
+  labels:
+    app: ""
+spec:
+  containers:
+  - name: vault
+    image: "vault:1.13.3"
+    ports:
+    - containerPort: 8200  
 ```
+This file specifies the pod's name and port, as well as the image used to create the container.
+After creating the *yaml* file, run the following command to create a pod
+```
+kubectl apply -f myfirst.yaml
+```
+![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/d06ef56b-1820-418e-8a9f-15e29772042b)
+
+Port forwarding
+```
+kubectl port-forward pod/vault 8200:8200
+```
+
 ### 11. Stop the Minikube cluster
 ```
 minikube stop
 ```
 ![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/e652b19c-0061-4c9c-8820-d2f47e15bbd2)
+
+## DIAGRAM
+![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/903fa9db-79f6-4089-9654-52a15c121a03)
 
 
 
