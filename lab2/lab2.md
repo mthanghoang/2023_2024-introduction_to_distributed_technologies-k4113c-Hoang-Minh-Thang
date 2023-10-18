@@ -59,8 +59,10 @@ kubectl port-forward service/web-deployment 3000:3000
 
 ### 4. Access the web page through a browser
 ![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/b23ca7cd-6266-4940-8018-b6356d00af79)
+
 The 2 environment variables REACT_APP_USERNAME and REACT_APP_COMPANY_NAME will always be the same. However the container name can change, depending on which pod the service routes the traffic to.
 In order to test this, I deleted 1 of the 2 pods and reexecute the port-forwarding command. The container name on the web page was changed to the other pod's.
 
 ## DIAGRAM
+![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/43740310-e565-4f42-bd5e-67e3d58967eb)
 
