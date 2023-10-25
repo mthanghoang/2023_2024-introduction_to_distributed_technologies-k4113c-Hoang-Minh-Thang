@@ -123,5 +123,6 @@ View the self-signed certificate
 <img width="576" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/e89ba2a3-41b1-48f6-bd2b-4e4050254f2b">
 
 ## DIAGRAM
+![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/ffc8d4d3-0972-41c0-b5a4-62b02db19982)
 
 
