@@ -13,9 +13,10 @@ Get acquainted with certificates and “secrets” in Minikube, secure data stor
 ## COURSE OF WORK:
 ### 1. Create a config map with 2 variables REACT_APP_USERNAME and REACT_APP_COMPANY_NAME
 ```
-kubectl create configmap myconfigmap --from-literal=REACT_APP_USERNAME=thanghoang --from-literal=REACT_APP_COMPANY_NAME=ITMO
+kubectl create configmap myconfigmap --from-literal=REACT_APP_USERNAME=thanghoang --from-literal=REACT_APP_COMPANY_NAME=ITMO -n reactapp
 ```
-![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/72806e10-a7b1-457f-a856-a24aaec59b16)
+<img width="946" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/ec64b50b-e5e9-40d3-bfa3-5f98042f9cdb">
+
 
 ### 2. Create a deployment with 2 replicas, using the config map to pass the environment variables to the pods
 Create deployment manifest file
@@ -71,6 +72,30 @@ kubectl create secret tls my-certificate --key MyKey.key --cert MyCertificate.cr
 ### 5. Create an ingress with the imported certificate
 Create a manifest file for the ingress *ingress.yaml*
 ```
-
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: web-deployment
+  namespace: reactapp
+spec:
+  tls:
+  - hosts:
+      - edu.info
+    secretName: my-certificate
+  rules:
+  - host: edu.info
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: web-deployment
+            port:
+              number: 3000
+```
+Then apply it
+```
+kube
 ```
 
