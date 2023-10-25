@@ -25,20 +25,19 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: web-deployment
-  labels:
-    app: web
+  namespace: reactapp
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: web
+      app: reactapp
   template:
     metadata:
       labels:
-        app: web
+        app: reactapp
     spec:
       containers:
-      - name: web-container
+      - name: reactapp
         image: ifilyaninitmo/itdt-contained-frontend:master
         envFrom:
         - configMapRef:
@@ -46,30 +45,38 @@ spec:
 ```
 Then apply the file to create the deployment
 ```
-kubectl apply -f myfirst.yaml
+kubectl apply -f deployment.yaml
 ```
-![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/6b067a86-4b07-49eb-b4f1-7eabde1b718f)
+<img width="514" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/0b550657-6269-4daa-9ef3-be37ed5a7aa6">
 
-### 3. Install Ingress Controller in Minikube
+### 3. Expose our application using Service
+```
+kubectl expose deployment web-deployment --type=NodePort --port=3000 -n reactapp
+```
+<img width="851" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/dd5820ca-936a-4777-ad2e-5b66adefab1b">
+
+
+### 4. Install Ingress Controller in Minikube
 ```
 minikube addons enable ingress
 ```
-![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/584c7d48-fe70-4656-a242-cdaeec3482fe)
+<img width="862" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/9c0adb02-f1d4-4ff2-b243-6ed5d4b1ca21">
 
-### 4. Generate a self-signed certificate and import it to our Kubernetes cluster
+### 5. Generate a self-signed certificate and import it to our Kubernetes cluster
 Generate a self-signed certificate
 ```
 openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out MyCertificate.crt -keyout MyKey.key
 ```
-![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/448d038f-c677-42e7-bf21-e23e19f06a27)
+<img width="960" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/8ebf9606-88d0-47a6-b2e9-f0d3ad932cca">
 
 Import the certificate to our cluster by creating a secret named *my-certificate*
 ```
-kubectl create secret tls my-certificate --key MyKey.key --cert MyCertificate.crt
+kubectl create secret tls my-certificate --key MyKey.key --cert MyCertificate.crt -n reactapp
 ```
-![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/311206bd-5cac-45da-a901-7fc850b9d0db)
+<img width="938" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/26a58544-9eb9-4a11-8e48-cc25db09c068">
 
-### 5. Create an ingress with the imported certificate
+
+### 6. Create an ingress with the imported certificate
 Create a manifest file for the ingress *ingress.yaml*
 ```
 apiVersion: networking.k8s.io/v1
@@ -96,6 +103,25 @@ spec:
 ```
 Then apply it
 ```
-kube
+kubectl apply -f ingress.yaml
 ```
+<img width="490" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/9cf23a99-8bea-4d19-842a-ac8dea344e32">
+
+### 7. Edit hosts file to include our host name edu.info and launch Minikube tunnel
+<img width="394" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/62a5c0c6-1651-4dc4-88a0-b802df22afc2">
+
+```
+minikube tunnel
+```
+<img width="795" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/e5cc851c-c3b4-4fc5-a551-33d1db159816">
+
+### 8. Access the application via browser using the hostname edu.info
+<img width="1258" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/f77c101d-ce4f-4b52-a9bb-d1944d270b31">
+
+View the self-signed certificate
+
+<img width="576" alt="image" src="https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/e89ba2a3-41b1-48f6-bd2b-4e4050254f2b">
+
+## DIAGRAM
+
 
