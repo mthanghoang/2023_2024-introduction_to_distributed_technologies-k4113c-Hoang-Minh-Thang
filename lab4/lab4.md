@@ -105,6 +105,7 @@ Connect to the pod in the master node and ping the pod in the worker node
 kubectl exec -it web-deployment-6f6988c8d7-z476h -n reactapp -- ping 192.168.1.128
 ```
 ![image](https://github.com/mthanghoang/2023_2024-introduction_to_distributed_technologies-k4113c-Hoang-Minh-Thang/assets/61542577/da53133d-89f9-475c-8955-3c0ecb6488de)
+
 The ping works.
 
 ## DIAGRAM
